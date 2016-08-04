@@ -17,31 +17,42 @@ public class SideScrollView extends ScrollView{
         super(context);
         mContext=context;
     }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-//        SideListView.dispatchSwitch=false;
-//        Log.i("scrollView","dispatchTouchEvent");
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-//        Log.i("scrollView","onInterceptTouchEvent");
-//        SideListView.dispatchSwitch=false;
         return false;
     }
+
+    private int dir=1;
+    private int startY;
+    private int endY;
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         Log.i("scrollView","onTouchEvent");
         SideListView.dispatchSwitch=false;
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                smoothScrollTo(0,getLayoutParams().height);
-//            }
-//        },200);
+
+        int action=ev.getAction();
+        switch(action){
+            case MotionEvent.ACTION_DOWN:
+                startY= (int) ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                endY= (int) ev.getY();
+                break;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dir=(endY-startY)>0?0:1;
+                Log.i("scrollView","dir "+dir);
+                smoothScrollTo(0,MainActivity.height*dir);
+            }
+        },500);
         return super.onTouchEvent(ev);
     }
 

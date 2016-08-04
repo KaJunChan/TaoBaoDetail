@@ -1,6 +1,7 @@
 package com.kotlin.example.demo.taobaodetail;
 
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,17 +26,18 @@ public class MainActivity extends AppCompatActivity {
     private SideListView mListView;
 
     private SideScrollView mScrollView;
+    public static int height;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        height = getWindowManager().getDefaultDisplay().getHeight();
+        int width = getWindowManager().getDefaultDisplay().getWidth();
         mScrollView = new SideScrollView(this);
         contentLayout = new LinearLayout(this);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
-        int height = getWindowManager().getDefaultDisplay().getHeight();
-        int width = getWindowManager().getDefaultDisplay().getWidth();
         FrameLayout.LayoutParams frparams = new FrameLayout.LayoutParams(width, height);
         contentLayout.setLayoutParams(frparams);
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mFirstView.setGravity(Gravity.CENTER);
         mFirstView.setText("FIRST_VIEW");
         mFirstView.setLayoutParams(layoutParams);
+        mFirstView.setBackgroundColor(Color.RED);
 
         layoutParams = new LinearLayout.LayoutParams(width, height / 6);
         final List<View> views = new ArrayList<>();
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText("Pos :" + i);
             textView.setLayoutParams(layoutParams);
+            textView.setBackgroundColor(Color.YELLOW);
             views.add(textView);
         }
 
@@ -77,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        layoutParams = new LinearLayout.LayoutParams(width, height);
         contentLayout.addView(mFirstView);
+        layoutParams = new LinearLayout.LayoutParams(width, height);
         contentLayout.addView(mListView, layoutParams);
         mScrollView.addView(contentLayout);
         addContentView(mScrollView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
